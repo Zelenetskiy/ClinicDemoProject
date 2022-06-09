@@ -54,45 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-//    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
-
-//    @Bean
-//    public JdbcUserDetailsManager userDetailsService(DataSource dataSource) {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN", "USER")
-//                        .build();
-//        JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager(dataSource);
-//        if (userDetailsService.userExists(user.getUsername())) {
-//            userDetailsService.deleteUser(user.getUsername());
-//        }
-//        if (userDetailsService.userExists(admin.getUsername())) {
-//            userDetailsService.deleteUser(admin.getUsername());
-//        }
-//        userDetailsService.createUser(user);
-//        userDetailsService.createUser(admin);
-//
-//        return userDetailsService;
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

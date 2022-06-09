@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +11,13 @@ import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
 
+import java.security.Principal;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+
 @Controller
-@RequestMapping(value = "/admin")
 public class AdminController {
     private RoleService roleService;
     private UserService userService;
@@ -24,47 +30,42 @@ public class AdminController {
 
       BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    @GetMapping(value = "/users_list")
-    public String getAllUsers(Model model){
-        model.addAttribute("users_list",  userService.getAllUsers());
-        return "users_list";
+
+
+
+    @PostMapping(value = "admin/user_delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id){
+        userService.removeUser(id);
+        return "redirect:/admin";
     }
 
-    @GetMapping(value = "/user_add")
-    public String addUserForm(Model model, User user){
+    @PostMapping(value = "admin/user_edit/{id}")
+    public String editUser(@PathVariable("id") Long id,  @ModelAttribute ("user") User user, @RequestParam(name = "roles" , required=false) Collection<Long>  rolesId){
+        Set<Role> roles = new HashSet<>();
+        for (Long idRole : rolesId) {
+            roles.add(roleService.getRoleById(idRole));
+        }
+
+        user.setRoles(roles);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userService.addUser(user);
+        return "redirect:/admin";
+    }
+
+
+    @GetMapping(value = "/admin")
+    public String pageAdmin(Principal principal, Model model, User user) {
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.getAllRoles());
-        return "user_add";
+        model.addAttribute("users_list",  userService.getAllUsers());
+        model.addAttribute("act_user", userService.findByUsername(principal.getName()));
+        return "admin";
     }
-    @PostMapping(value = "/user_add")
+    @PostMapping(value = "/admin")
     public String addUser(User user){
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.addUser(user);
-        return "redirect:/admin/users_list";
-    }
-
-    @GetMapping(value = "user_delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id){
-        userService.removeUser(id);
-        return "redirect:/admin/users_list";
-    }
-
-    @GetMapping(value = "/user_update/{id}")
-    public String editUserForm(@PathVariable("id") Long id, Model model){
-        model.addAttribute("users", userService.getUserById(id));
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "user_update";
-    }
-    @PostMapping(value = "/user_update")
-    public String editUser(User user){
-        userService.addUser(user);
-        return "redirect:/admin/users_list";
-    }
-
-
-    @GetMapping()
-    public String pageAdmin() {
-        return "admin";
+        return "redirect:/admin";
     }
 
 }

@@ -20,15 +20,6 @@ public class UserController {
         this.userDetailsService = userDetailsService;
     }
 
-//    @GetMapping(value = "/")
-//    public String printHello(ModelMap model) {
-//        List<String> messages = new ArrayList<>();
-//        messages.add("Hello!");
-//
-//        model.addAttribute("messages", messages);
-//        return "index";
-//    }
-
     @GetMapping()
     public String pageUser(Principal principal, ModelMap model){
         model.addAttribute("user", userDetailsService.findByUsername(principal.getName()));

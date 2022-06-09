@@ -58,6 +58,16 @@ public class User implements UserDetails {
                 ;
     }
 
+    public String getFormatRoles(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Role role : roles){
+            stringBuilder
+                    .append(role.getName().substring(5))
+                    .append(" ");
+        }
+        return stringBuilder.toString();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
