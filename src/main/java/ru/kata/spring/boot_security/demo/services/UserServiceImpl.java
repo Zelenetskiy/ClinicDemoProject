@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,13 +36,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void removeUser(Long id) {
-        userRepository.deleteById(id);
+       userRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public User getUserById(Long id) {
-        return userRepository.getOne(id);
+        return userRepository.getById(id);
     }
 
     @Override
