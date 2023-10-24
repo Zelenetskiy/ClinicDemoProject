@@ -13,6 +13,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="main.js"></script>
+    <script src="patient.js"></script>
+
     <script src="user.js"></script>
 </head>
 <body>
@@ -22,6 +24,16 @@
         <div class="navbar-header" id="navbar-header">
             <!--JS pageUser-->
         </div>
+
+        <div class="live-search-patient" id="live-search-patient">
+            <form class="form">
+                <input type="text" class="livesearсhpatient" placeholder="Пациент..." />
+                <ul class="options">
+<!--                    <li>Пациент</li>-->
+                </ul>
+            </form>
+        </div>
+        <script src="livesearchpatient.js"></script>
 
         <div>
 
@@ -50,8 +62,10 @@
                     <h1>Admin panel</h1>
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Users table</a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">New User</a>
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Таблица медиков</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Новый медик</a>
+                            <a class="nav-item nav-link" id="nav-home-tab2" data-toggle="tab" href="#nav-home2" role="tab" aria-controls="nav-home" aria-selected="false">Таблица пациентов</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#nav-profile2" role="tab" aria-controls="nav-profile" aria-selected="false">Новый пациент</a>
 
                         </div>
                     </nav>
@@ -234,6 +248,142 @@
                             </div>
 
                         </div>
+
+
+                        <div class="tab-pane fade" id="nav-home2" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="card">
+                                <h5 class="card-header">Все пациенты</h5>
+                                <div class="card-body">
+                                    <table class="table table-striped" >
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Фамилия</th>
+                                            <th>Имя</th>
+                                            <th>Отчество</th>
+                                            <th>Дата рождения</th>
+                                            <th>№ телефона</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="allPatientTable">
+
+                                        <!-- Modal Edit-->
+                                        <div class="modal fade" id="exampleModalEdit2"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <form>
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel2">Edit user</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input type="hidden" class="form-control" id="id3">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="name1" class="font-weight-bold">First Name</label>
+                                                                <input type="text" class="form-control"   id="name3" placeholder="First Name">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="last_name1" class="font-weight-bold">Last name</label>
+                                                                <input type="text" class="form-control"   id="last_name3" placeholder="Last name">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="age1" class="font-weight-bold">Age</label>
+                                                                <input type="number" class="form-control"   id="age3" placeholder="Age">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="email1" class="font-weight-bold">Email</label>
+                                                                <input type="text" class="form-control"   id="email3" placeholder="Email">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="username1" class="font-weight-bold">Username</label>
+                                                                <input type="text" class="form-control"  id="username3" placeholder="Username">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="password1" class="font-weight-bold">Password</label>
+                                                                <input type="password" class="form-control"   id="password3" placeholder="Password">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="roles1"><b>Role</b></label>
+                                                                <select multiple class="form-control"  id="roles3"  placeholder="Role" size="2" required>
+                                                                    <option selected="selected" value="2">ROLE_ADMIN</option>
+                                                                    <option value="1">ROLE_USER</option>
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" id="close3" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary" onclick="editUser()">Edit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <!-- Modal DELETE-->
+                                        <div class="modal fade" id="exampleModalDelete2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <form>
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel3">Delete user</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input type="hidden" class="form-control" id="id4">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="name2" class="font-weight-bold">First Name</label>
+                                                                <input type="text" class="form-control" disabled id="name4" placeholder="First Name">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="last_name2" class="font-weight-bold">Last name</label>
+                                                                <input type="text" class="form-control" disabled id="last_name4" placeholder="Last name">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="age2" class="font-weight-bold">Age</label>
+                                                                <input type="number" class="form-control" disabled id="age4" placeholder="Age">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="email2" class="font-weight-bold">Email</label>
+                                                                <input type="text" class="form-control" disabled id="email4" placeholder="Email">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="roles2"><b>Role</b></label>
+                                                                <select multiple class="form-control" disabled id="roles4" placeholder="Role" size="2">
+                                                                    <option selected="selected" value="1">ROLE_ADMIN</option>
+                                                                    <option value="2">ROLE_USER</option>
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" id="close4" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary" onclick="deleteUser()">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
 
                     </div>
 
